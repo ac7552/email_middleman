@@ -20,12 +20,12 @@ This service is an abstraction between two email service providers(MailGun & Sen
         If you're using the free version of mailgun you'll need to whitlist the email addresses you want to send
         and email to. In the image above I've verified that the only email address that can receive emails via
         MailGun acampbe2@binghamton.edu
-        ![SendGrid reference](sendgrid.png)
-
+        
 4. In SendGrid:
         click on the Settings tab followed by API Keys tab. Create a new API Key via the API KEY button.
         You'll need to save the api key for later.
-
+        ![SendGrid reference](sendgrid.png)
+        
 5. Create a .env to store all your environmental variables. You'll need the following below.
 
         DOMAIN="localhost:3000"
