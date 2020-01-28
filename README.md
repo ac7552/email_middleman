@@ -1,7 +1,6 @@
 # Email Middleman
 
-This service is an abstraction between two email service providers(MailGun & SendGrid). Simply change a configuration/restart app
-and failover to a differ provider
+This service is an abstraction between two email service providers(MailGun & SendGrid). Simply change a env variable/restart app and failover to a different provider
 
 ## Getting Started
 
@@ -24,7 +23,7 @@ and failover to a differ provider
         ![SendGrid reference](sendgrid.png)
 
 4. In SendGrid:
-        In Sendgrid click on the Settings tab followed by API Keys tab. Create a new API Key via the API KEY button.
+        click on the Settings tab followed by API Keys tab. Create a new API Key via the API KEY button.
         You'll need to save the api key for later.
 
 5. Create a .env to store all your environmental variables. You'll need the following below.
