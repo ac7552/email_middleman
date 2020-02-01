@@ -38,17 +38,18 @@ This service is an abstraction between two email service providers(MailGun & Sen
         This app uses the * [flipper active record adapter](https://github.com/jnunemaker/flipper/tree/master/docs/active_record) for feature toggling. You'll need to create the     
         default_mailer feature flag in the console as so:
 
+
 Enabling Feature flag:
-        ````Ruby
-          adapter = Flipper::Adapters::ActiveRecord.new
-          flipper = Flipper.new(adapter)
-          flipper[:default_mailer].enable
-        ````
+````Ruby
+  adapter = Flipper::Adapters::ActiveRecord.new
+  flipper = Flipper.new(adapter)
+  flipper[:default_mailer].enable
+````
 Disabling Feature flag:
-        ````Ruby
-          flipper = Flipper::Adapters::ActiveRecord::Gate.find_by(feature_key: "default_mailer", key: "boolean")
-          flipper.update! value: "false"
-        ````
+````Ruby
+  flipper = Flipper::Adapters::ActiveRecord::Gate.find_by(feature_key: "default_mailer", key: "boolean")
+  flipper.update! value: "false"
+````
 
 7. You'll need to build the web app docker image
         Run the following once: docker-compose build
