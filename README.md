@@ -38,11 +38,11 @@ This service is an abstraction between two email service providers(MailGun & Sen
         This app uses the [Flipper Active Record Adapter](https://github.com/jnunemaker/flipper/tree/master/docs/active_record) for feature toggling. You'll need to create the     
         default_mailer feature flag in the console as so:
 
-Flipper Active Record Adapter Setup:
-````
-rails g flipper:active_record
-docker-compose run web rake db:migrate
-````
+        Flipper Active Record Adapter Setup:
+        ````
+        rails g flipper:active_record
+        docker-compose run web rake db:migrate
+        ````
 
 Enabling Feature flag:
 ````Ruby
