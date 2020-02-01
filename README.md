@@ -32,19 +32,19 @@ This service is an abstraction between two email service providers(MailGun & Sen
         MAILGUN_APIKEY="apikey key"
         SENDGRID_PASSWORD="Your sendgrid API key"
 
-        mail_gun_api_service & send_grid_api_service use the env variables for sending http request
+        Both the mail_gun_api_service & send_grid_api_service use the .env variables for sending http request
 
 6. Switching between MailGun and SendGrid  
         This app uses the * [flipper active record adapter](https://github.com/jnunemaker/flipper/tree/master/docs/active_record) for feature toggling. You'll need to create the     
         default_mailer feature flag in the console as so:
 
-        Enabling Feature flag
+Enabling Feature flag:
         ````Ruby
           adapter = Flipper::Adapters::ActiveRecord.new
           flipper = Flipper.new(adapter)
           flipper[:default_mailer].enable
         ````
-        Disabling Feature flag:
+Disabling Feature flag:
         ````Ruby
           flipper = Flipper::Adapters::ActiveRecord::Gate.find_by(feature_key: "default_mailer", key: "boolean")
           flipper.update! value: "false"
