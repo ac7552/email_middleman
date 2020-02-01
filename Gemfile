@@ -3,6 +3,11 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.5.7'
 
+# Gem for mocking http request
+gem 'webmock'
+# Feature flagging Gem
+gem 'flipper-active_record'
+# Storing configuration in the environment Gem
 gem 'dotenv-rails', groups: [:development, :test]
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.4'

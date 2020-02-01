@@ -12,29 +12,6 @@ Rails.application.configure do
   # Show full error reports.
   config.consider_all_requests_local = true
 
-  # Mail Gun Configuration Setup
-  config.action_mailer.delivery_method = :smtp
-  config.action_mailer.perform_deliveries = true
-
-  if ENV['DEFAULT_MAILER_ENABLED']
-    config.action_mailer.smtp_settings = {
-      :authentication => :plain,
-      :address => "smtp.mailgun.org",
-      :port => 587,
-      :domain => ENV['DOMAIN'],
-      :user_name => ENV['MAILGUN_USERNAME'],
-      :password => ENV['MAILGUN_PASSWORD']
-    }
-  else
-    config.action_mailer.smtp_settings = {
-      :authentication => :plain,
-      :address => "smtp.sendgrid.net",
-      :port => 587,
-      :domain => ENV['DOMAIN'],
-      :user_name => ENV['SENDGRID_USERNAME'],
-      :password => ENV['SENDGRID_PASSWORD'],
-    }
-  end
   # Enable/disable caching. By default caching is disabled.
   # Run rails dev:cache to toggle caching.
   if Rails.root.join('tmp', 'caching-dev.txt').exist?

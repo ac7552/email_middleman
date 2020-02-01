@@ -14,32 +14,41 @@ This service is an abstraction between two email service providers(MailGun & Sen
 
 3. In MailGun:
         Once Signed Up with Mailgun click on the Sending Tab followed by the Overview tab.
-        In the overview Tab click on SMTP box. You will need to copy and save the username and password fields for later.
+        In the overview Tab click on API box. You will need to copy and save the apikey and API base URL fields for later.
         ![MailGun reference](mailgun.png)
 
-        If you're using the free version of mailgun you'll need to whitlist the email addresses you want to send
+        If you're using the free version of mailgun you'll need to whitelist the email addresses you want to send
         and email to. In the image above I've verified that the only email address that can receive emails via
         MailGun acampbe2@binghamton.edu
-        
+
 4. In SendGrid:
         click on the Settings tab followed by API Keys tab. Create a new API Key via the API KEY button.
         You'll need to save the api key for later.
         ![SendGrid reference](sendgrid.png)
-        
-5. Create a .env to store all your environmental variables. You'll need the following below.
 
-        DOMAIN="localhost:3000"
-        DEFAULT_MAILER_ENABLED=true
-        MAILGUN_USERNAME="Your mailgun username"
-        MAILGUN_PASSWORD="Your mailgun password"
-        SENDGRID_USERNAME="apikey" #everyone has the same username
+5. Create a .env to store all your environmental variables. You'll need the following below.  
+
+        MAILGUN_DOMAIN_NAME = "API base URL field"
+        MAILGUN_APIKEY="apikey key"
         SENDGRID_PASSWORD="Your sendgrid API key"
 
+        mail_gun_api_service & send_grid_api_service use the env variables for sending http request
+
 6. Switching between MailGun and SendGrid  
-        If you want to use MailGun in your .env set the DEFAULT_MAILER_ENABLED
-        DEFAULT_MAILER_ENABLED=true
-        If you want to use SendGrid comment out the DEFAULT_MAILER_ENABLED
-        #DEFAULT_MAILER_ENABLED=true
+        This app uses the flipper active record adapter gem for feature toggling. You'll need to create the
+        default_mailer feature flag in the console as so:
+
+        Enabling Feature flag
+        ````Ruby
+          adapter = Flipper::Adapters::ActiveRecord.new
+          flipper = Flipper.new(adapter)
+          flipper[:default_mailer].enable
+        ````
+        Disabling Feature flag:
+        ````Ruby
+          flipper = Flipper::Adapters::ActiveRecord::Gate.find_by(feature_key: "default_mailer", key: "boolean")
+          flipper.update! value: "false"
+        ````
 
 7. You'll need to build the web app docker image
         Run the following once: docker-compose build
@@ -55,27 +64,21 @@ Docker
 SendGrid and MailGun Sign up
 
 ##Code Snippet:
-  - In the develop.rb file this is the logic for toggling between email services.
+  - In the emails_controller.rb file the send_mail contains the logic for deciding between email services.
 ````Ruby
+def default_mailer_enabled?
+  flipper_gate = Flipper::Adapters::ActiveRecord::Gate.find_by(feature_key: "default_mailer", key: "boolean")
+  return false if flipper_gate.nil?
+  flipper_gate.value == "true"
+end
 
-if ENV['DEFAULT_MAILER_ENABLED']
-  config.action_mailer.smtp_settings = {
-    :authentication => :plain,
-    :address => "smtp.mailgun.org",
-    :port => 587,
-    :domain => ENV['DOMAIN'],
-    :user_name => ENV['MAILGUN_USERNAME'],
-    :password => ENV['MAILGUN_PASSWORD']
-  }
-else
-  config.action_mailer.smtp_settings = {
-    :authentication => :plain,
-    :address => "smtp.sendgrid.net",
-    :port => 587,
-    :domain => ENV['DOMAIN'],
-    :user_name => ENV['SENDGRID_USERNAME'],
-    :password => ENV['SENDGRID_PASSWORD'],
-  }
+def send_mail
+  data = bundle_payload(email_params)
+  if default_mailer_enabled?
+    MailGunApiService.new(data).send_email
+  else
+    SendGridApiService.new(data).send_email
+  end
 end
 ````
 
@@ -91,6 +94,10 @@ end
 * [Docker](https://docs.docker.com/docker-for-mac/install/) - Containers for an easy setup
 
 
+If I were to do this again I'd choose a more light weight frame work like Tornado. I believe rails was a little overkill for this project, but it was the frame work I knew the best. Additionally, I'd probably want to store the emails on postgres in
+case there was a network level, so I can resend the email at a later time. That being said, I'd also probably want some sort of
+job running in the background to check if an email was correct sent. If an email failed to send this job would resend the email.
+I'd also want to support multiple receivers, because as of right now only one person can receive an email.   
 
 ## Authors
 
