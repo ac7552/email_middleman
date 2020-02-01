@@ -35,9 +35,14 @@ This service is an abstraction between two email service providers(MailGun & Sen
         Both the mail_gun_api_service & send_grid_api_service use the .env variables for sending http request
 
 6. Switching between MailGun and SendGrid  
-        This app uses the * [flipper active record adapter](https://github.com/jnunemaker/flipper/tree/master/docs/active_record) for feature toggling. You'll need to create the     
+        This app uses the [Flipper Active Record Adapter](https://github.com/jnunemaker/flipper/tree/master/docs/active_record) for feature toggling. You'll need to create the     
         default_mailer feature flag in the console as so:
 
+Flipper Active Record Adapter Setup:
+````
+rails g flipper:active_record
+docker-compose run web rake db:migrate
+````
 
 Enabling Feature flag:
 ````Ruby
