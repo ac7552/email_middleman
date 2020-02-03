@@ -132,11 +132,15 @@ end
         
  - Job to Clear Emails from Postgres using SideKiq scheduler: 
         I'd also want a job to remove emails from postgres, so there isn't an ever growing table. I'd want to set expiration  
-        for emails at a day. The Clear Emails Job would look at the email_age field
+        for emails at a day. The Clear Emails Job would look at the email_age field in determining which email rows to remove 
+
+- Automatic Failover:
+        I'd implement a mechanism to failover to the non default service in the event of failed responses.
+        Essentially this would be toggling the feature flipper after an X amount of failures.
         
  - Lastly I'd want to support multiple recievers:
         Only one person can receive an email via the current API. I'd need to adjust the MailGunAPIService &                           SendGridAPIService in order to do so. 
-  
+
 
 ## Authors
 
