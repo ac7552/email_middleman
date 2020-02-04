@@ -47,7 +47,7 @@ This service is an abstraction between two email service providers(MailGun & Sen
     Both the mail_gun_api_service & send_grid_api_service use the .env variables for sending http request
 
 
-7. Switching between MailGun and SendGrid  
+7. Switching between MailGun and SendGrid:  
         This app uses the [Flipper Active Record Adapter](https://github.com/jnunemaker/flipper/tree/master/docs/active_record) for feature toggling. You'll need to create the     
         default_mailer feature flag in the console as so:
 
