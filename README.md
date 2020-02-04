@@ -30,7 +30,11 @@ This service is an abstraction between two email service providers(MailGun & Sen
         ![SendGrid reference](sendgrid.png)
 
 
-5. Create a .env to store all your environmental variables. You'll need the following below.  
+5. You'll need to build the web app docker image
+        Run the following once: ````docker-compose build````
+        Now whenever you want to run the app: ````docker-compose up```
+        
+6. Create a .env to store all your environmental variables. You'll need the following below.  
 
         MAILGUN_DOMAIN_NAME = "API base URL field"
         MAILGUN_APIKEY="apikey key"
@@ -39,7 +43,7 @@ This service is an abstraction between two email service providers(MailGun & Sen
         Both the mail_gun_api_service & send_grid_api_service use the .env variables for sending http request
 
 
-6. Switching between MailGun and SendGrid  
+7. Switching between MailGun and SendGrid  
         This app uses the [Flipper Active Record Adapter](https://github.com/jnunemaker/flipper/tree/master/docs/active_record) for feature toggling. You'll need to create the     
         default_mailer feature flag in the console as so:
 
@@ -60,11 +64,6 @@ Disabling Feature flag:
   flipper = Flipper::Adapters::ActiveRecord::Gate.find_by(feature_key: "default_mailer", key: "boolean")
   flipper.update! value: "false"
 ````
-
-
-7. You'll need to build the web app docker image
-        Run the following once: docker-compose build
-        Now whenever you want to run the app: docker-compose up
 
 
 ## Tools/Migrations
