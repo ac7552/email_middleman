@@ -30,9 +30,13 @@ This service is an abstraction between two email service providers(MailGun & Sen
         ![SendGrid reference](sendgrid.png)
 
 
-5. You'll need to build the web app docker image
-        Run the following once: ````docker-compose build````
-        Now whenever you want to run the app: ````docker-compose up```
+5. You'll need to build the web app docker image, so run the below command once: 
+        
+        docker-compose build
+        
+   Run the command below whenever you want to start the app: 
+        
+        docker-compose up       
         
 6. Create a .env to store all your environmental variables. You'll need the following below.  
 
@@ -40,7 +44,7 @@ This service is an abstraction between two email service providers(MailGun & Sen
         MAILGUN_APIKEY="apikey key"
         SENDGRID_PASSWORD="Your sendgrid API key"
 
-        Both the mail_gun_api_service & send_grid_api_service use the .env variables for sending http request
+    Both the mail_gun_api_service & send_grid_api_service use the .env variables for sending http request
 
 
 7. Switching between MailGun and SendGrid  
